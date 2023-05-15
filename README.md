@@ -56,26 +56,26 @@ https://drive.google.com/file/d/1ncxGb_6hM27hiv2Ra5921HogmlUsrHYq/view?usp=share
 https://drive.google.com/file/d/1UPexanNjS6BqO1nwhUePId2TFvzWFlvX/view?usp=share_link
 
  
-    python -u  run_classifier.py \
-    --model_name_or_path roberta-base \
-    --do_train \
-    --do_eval \
-    --do_predict \
-    --max_seq_length 512 \
-    --per_device_train_batch_size 8 \
-    --gradient_accumulation_steps 2 \
-    --learning_rate 1e-5 \
-    --num_train_epochs 1 \
-    --output_dir output_path \
-    --overwrite_output_dir \
-    --train_file train_file \
-    --validation_file factcc.csv \
-    --use_fast_tokenizer False \
-    --save_strategy "no" \
-    --warmup_ratio 0.06 \
-    --weight_decay 0.1 \
-    --logging_steps=100 \
-    --report_to none \
+      python -u  run_classifier.py \
+      --model_name_or_path roberta-base \
+      --do_train \
+      --do_eval \
+      --do_predict \
+      --max_seq_length 512 \
+      --per_device_train_batch_size 8 \
+      --gradient_accumulation_steps 2 \
+      --learning_rate 1e-5 \
+      --num_train_epochs 1 \
+      --output_dir output_path \
+      --overwrite_output_dir \
+      --train_file train_file \
+      --validation_file factcc.csv \
+      --use_fast_tokenizer False \
+      --save_strategy "no" \
+      --warmup_ratio 0.06 \
+      --weight_decay 0.1 \
+      --logging_steps=100 \
+      --report_to none \
 
 #### Generator:
 
@@ -83,7 +83,7 @@ Download the training and test dataset:
 - 50k summaries for inference: \
 https://drive.google.com/file/d/1Y3B7ZnNVN8OH8RjWKgl3nMldDHEmUyZI/view?usp=share_link
 - rest of summaries for training: \
-https://drive.google.com/file/d/15W4aXoDdOhN3EKxuFXTXsZxZt26HSfnw/view?usp=share_link \
+https://drive.google.com/file/d/15W4aXoDdOhN3EKxuFXTXsZxZt26HSfnw/view?usp=share_link 
 - download the trained model if you just want to do inference (generating nonfactual summaries): \
 https://drive.google.com/file/d/16uhiU3BRlbQYJnBnqpglrg0sv51N0AKN/view?usp=share_link
 
@@ -91,66 +91,66 @@ https://drive.google.com/file/d/16uhiU3BRlbQYJnBnqpglrg0sv51N0AKN/view?usp=share
 - **Training:** training a BART-base model (see figure 2 in the paper) 
  
 
-    python -u train_seq2seq.py \
-    --model_name_or_path facebook/bart-base \
-    --text_column doc \
-    --summary_column summary \
-    --do_train \
-    --do_predict \
-    --task summarization \
-    --train_file cnndm_sentence_50000_rest.csv \
-    --validation_file cnndm_sentence_50000_firstsum.csv \
-    --test_file cnndm_sentence_50000_firstsum.csv \
-    --output_dir output_path  \
-    --per_device_train_batch_size=2 \
-    --per_device_eval_batch_size=16 \
-    --overwrite_output_dir \
-    --predict_with_generate \
-    --gradient_accumulation_steps 10 \
-    --num_train_epochs 1 \
-    --save_strategy "no" \
-    --learning_rate=3e-05 \
-    --weight_decay=0.01 \
-    --max_grad_norm=0.1 \
-    --lr_scheduler_type=polynomial \
-    --warmup_steps=500 \
-    --label_smoothing_factor=0.1 \
-    --config_name my_config2.json \
-    --logging_steps=100 \
-    --max_source_length=1024 \
-    --report_to none \
+      python -u train_seq2seq.py \
+      --model_name_or_path facebook/bart-base \
+      --text_column doc \
+      --summary_column summary \
+      --do_train \
+      --do_predict \
+      --task summarization \
+      --train_file cnndm_sentence_50000_rest.csv \
+      --validation_file cnndm_sentence_50000_firstsum.csv \
+      --test_file cnndm_sentence_50000_firstsum.csv \
+      --output_dir output_path  \
+      --per_device_train_batch_size=2 \
+      --per_device_eval_batch_size=16 \
+      --overwrite_output_dir \
+      --predict_with_generate \
+      --gradient_accumulation_steps 10 \
+      --num_train_epochs 1 \
+      --save_strategy "no" \
+      --learning_rate=3e-05 \
+      --weight_decay=0.01 \
+      --max_grad_norm=0.1 \
+      --lr_scheduler_type=polynomial \
+      --warmup_steps=500 \
+      --label_smoothing_factor=0.1 \
+      --config_name my_config2.json \
+      --logging_steps=100 \
+      --max_source_length=1024 \
+      --report_to none \
 
 
 - **Inference:** testing the trained BART-base model to generate nonfactual summaries (see figure 2 in the paper)
 
     
-    python -u inference_seq2seq.py \
-    --model_name_or_path o_train_bart_cnn_percent50_stopwords_sep_halfsum_plus4timesrand_e1 \
-    --text_column doc \
-    --summary_column summary \
-    --do_predict \
-    --task summarization \
-    --train_file cnndm_sentence_50000_firstsum.csv \
-    --validation_file cnndm_sentence_50000_firstsum.csv \
-    --test_file cnndm_sentence_50000_firstsum.csv \
-    --output_dir output_path \
-    --per_device_train_batch_size=2 \
-    --per_device_eval_batch_size=32 \
-    --overwrite_output_dir \
-    --predict_with_generate \
-    --gradient_accumulation_steps 5 \
-    --num_train_epochs 2 \
-    --save_strategy "no" \
-    --learning_rate=3e-05 \
-    --weight_decay=0.01 \
-    --max_grad_norm=0.1 \
-    --lr_scheduler_type=polynomial \
-    --warmup_steps=500 \
-    --label_smoothing_factor=0.1 \
-    --config_name my_config2.json \
-    --logging_steps=100 \
-    --max_source_length=1024 \
-    --report_to none \
-    --max_val_samples=50000 \
-    --max_test_samples=50000 \
+      python -u inference_seq2seq.py \
+      --model_name_or_path o_train_bart_cnn_percent50_stopwords_sep_halfsum_plus4timesrand_e1 \
+      --text_column doc \
+      --summary_column summary \
+      --do_predict \
+      --task summarization \
+      --train_file cnndm_sentence_50000_firstsum.csv \
+      --validation_file cnndm_sentence_50000_firstsum.csv \
+      --test_file cnndm_sentence_50000_firstsum.csv \
+      --output_dir output_path \
+      --per_device_train_batch_size=2 \
+      --per_device_eval_batch_size=32 \
+      --overwrite_output_dir \
+      --predict_with_generate \
+      --gradient_accumulation_steps 5 \
+      --num_train_epochs 2 \
+      --save_strategy "no" \
+      --learning_rate=3e-05 \
+      --weight_decay=0.01 \
+      --max_grad_norm=0.1 \
+      --lr_scheduler_type=polynomial \
+      --warmup_steps=500 \
+      --label_smoothing_factor=0.1 \
+      --config_name my_config2.json \
+      --logging_steps=100 \
+      --max_source_length=1024 \
+      --report_to none \
+      --max_val_samples=50000 \
+      --max_test_samples=50000 \
 
